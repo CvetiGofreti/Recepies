@@ -1,0 +1,3 @@
+﻿  Users.cpp
+C:\Users\Cveti\source\repos\Recepies\Recepies\Users.cpp(42,20): warning C4018: '<': signed/unsigned mismatch
+  Recepies.vcxproj -> C:\Users\Cveti\source\repos\Recepies\Debug\Recepies.exe
