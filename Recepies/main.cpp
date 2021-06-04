@@ -1,51 +1,58 @@
-#include "C:\Users\Cveti\source\repos\Recepies\Recepies\libbcrypt\include\bcrypt\BCrypt.hpp"
 #include <stdlib.h>
-#include <string>
 #include "User.h"
-#include "Users.h"
-#include "Commands.h"
+#include "Functions.h"
 
 
 
-bool isValidUsername(std::string name) {
-	bool areAllValid = true;
-	for (char symbol : name) {
-		if (!((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || symbol == '-' || symbol == '.' || symbol == '_')) {
-			areAllValid = false;
-		}
-	}
-	return areAllValid;
-}
 
-bool containsCapitalLetter(std::string word) {
-	bool contains = false;
-	for (char symbol : word) {
-		if ((symbol >= 'A' && symbol <= 'Z')) {
-			contains = true;
-		}
-	}
-	return contains;
-}
-
-bool containsSmalllLetter(std::string word) {
-	bool contains = false;
-	for (char symbol : word) {
-		if ((symbol >= 'a' && symbol <= 'z')) {
-			contains = true;
-		}
-	}
-	return contains;
-}
-
+//register = 0
+//login = 1
+//logout = 2
+//addRecepie = 4
+//changeRecepie = 5
+//deleteRecepie = 6
+//pregled = 7
+//tyrsene 8
+//ocenka9
+//spisyk10
+//pregled na profil11
+//pregled na recepti12
+//pregled na ocenki13
+//exit 14
 int main() {
 	Users myUserList;
 	myUserList.load("users.db");
-	registerUser(myUserList);
-	loginUser(myUserList);
-	registerUser(myUserList);
-	loginUser(myUserList);
-	registerUser(myUserList);
-	loginUser(myUserList);
+	std::string myCommand = "";
+	int indexOfCommand = -1;
+	while (true) {
+		std::cout << "Enter command register/login/logout/exit: " << std::endl;
+		std::cin >> myCommand;
+		if (!isValidCommand(myCommand)) {
+			std::cout << "Invalid command.Enter again: " << std::endl;
+		}
+		
+		else {
+			indexOfCommand = indexOfCommandfunc(myCommand);
+			switch (indexOfCommand)
+			{
+			
+			case 0 :
+				registerUser(myUserList);
+				break;
+			case 1:
+				loginUser(myUserList);
+				break;
+			case 2:
+				logoutUser();
+				break;
+			case 14:
+				std::cout << "Exiting..." << std::endl;
+				return 0;
+			default:
+				break;
+			}
+		}
+	}
 }
 
 //BCrypt::validatePassword

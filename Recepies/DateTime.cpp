@@ -3,8 +3,8 @@
 #include <iostream>
 using namespace std;
 
-void printMonth(int _month) {
-	switch (_month)
+void printMonth(int month) {
+	switch (month)
 	{
 	case 1:
 		cout << "JAN";
@@ -47,51 +47,60 @@ void printMonth(int _month) {
 DateTime::DateTime(time_t now) {
 	//time(0)
 	tm* ltm = localtime(&now);
-	this->year = 1900 + ltm->tm_year;
-	this->month = 1 + ltm->tm_mon;
-	this->day = ltm->tm_mday;
-	this->hour =ltm->tm_hour;
-	this->min = ltm->tm_min;
-	this->sec = ltm->tm_sec;
+	this->_year = 1900 + ltm->tm_year;
+	this->_month = 1 + ltm->tm_mon;
+	this->_day = ltm->tm_mday;
+	this->_hour =ltm->tm_hour;
+	this->_min = ltm->tm_min;
+	this->_sec = ltm->tm_sec;
 }
-DateTime::DateTime(int _day, int _month, int _year, int _hour, int _min,int _sec) {
-	this->year = _year;
-	this->month = _month;
-	this->day = _day;
-	this->hour = _hour;
-	this->min = _min;
-	this->sec = _sec;
+DateTime::DateTime(int day, int month, int year, int hour, int min,int sec) {
+	this->_year = year;
+	this->_month = month;
+	this->_day = day;
+	this->_hour = hour;
+	this->_min = min;
+	this->_sec = sec;
 }
 DateTime::DateTime() {
 	//time(0)
 	
-	this->year = 1900;
-	this->month = 1;
-	this->day = 1;
-	this->hour = 0;
-	this->min = 0;
-	this->sec = 0;
+	this->_year = 1900;
+	this->_month = 1;
+	this->_day = 1;
+	this->_hour = 0;
+	this->_min = 0;
+	this->_sec = 0;
 }
 void DateTime::print(){
-	cout << this->day << " ";
-	printMonth(this->month);
-	cout << " " << this->year << ", " << this->hour << ":" << this->min << ":" << this->sec << endl;
+	cout << this->_day << " ";
+	printMonth(this->_month);
+	cout << " " << this->_year << ", " << this->_hour << ":" << this->_min << ":" << this->_sec << endl;
 }
 int DateTime::getYear()const {
-	return this->year;
+	return this->_year;
 }
 int DateTime::getMonth()const {
-	return this->month;
+	return this->_month;
 }
 int DateTime::getDay()const {
-	return this->day;
+	return this->_day;
 }
 int DateTime::getHour()const {
-	return this->hour;
+	return this->_hour;
 }
 int DateTime::getMin()const {
-	return this->min;
+	return this->_min;
 }
 int DateTime::getSec()const {
-	return this->sec;
+	return this->_sec;
+}
+
+void DateTime::serizalize(std::ofstream& oFile) const {
+	oFile.write((const char*)&_day, sizeof(int));
+	oFile.write((const char*)&_month, sizeof(int));
+	oFile.write((const char*)&_year, sizeof(int));
+	oFile.write((const char*)&_hour, sizeof(int));
+	oFile.write((const char*)&_min, sizeof(int));
+	oFile.write((const char*)&_sec, sizeof(int));
 }

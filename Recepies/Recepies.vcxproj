@@ -139,15 +139,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DateTime.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProductWithVolume.cpp" />
     <ClCompile Include="Recepie.cpp" />
+    <ClCompile Include="Recepies.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="Users.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Commands.h" />
+    <ClInclude Include="Functions.h" />
+    <ClInclude Include="DateTime.h" />
     <ClInclude Include="FoodGroup.h" />
+    <ClInclude Include="ProductWithVolume.h" />
     <ClInclude Include="Recepie.h" />
+    <ClInclude Include="Recepies.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="Users.h" />
   </ItemGroup>

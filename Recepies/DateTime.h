@@ -1,20 +1,20 @@
 #pragma once
 #include <ctime>
-
+#include <fstream>
 class DateTime
 {
 private:
-	int year;
-	int month;
-	int day;
-	int hour;
-	int min;
-	int sec;
+	int _year;
+	int _month;
+	int _day;
+	int _hour;
+	int _min;
+	int _sec;
 
 public:
 	DateTime();
 	DateTime(time_t now);
-	DateTime(int _day, int _month, int _year, int _hour, int _min, int _sec);
+	DateTime(int day, int month, int year, int hour, int min, int sec);
 	void print();
 	int getYear()const;
 	int getMonth()const;
@@ -22,4 +22,7 @@ public:
 	int getHour()const;
 	int getMin()const;
 	int getSec()const;
+
+	void serizalize(std::ofstream& oFile) const;
+
 };

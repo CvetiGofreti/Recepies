@@ -1,3 +1,9 @@
-﻿  Users.cpp
-C:\Users\Cveti\source\repos\Recepies\Recepies\Users.cpp(42,20): warning C4018: '<': signed/unsigned mismatch
-  Recepies.vcxproj -> C:\Users\Cveti\source\repos\Recepies\Debug\Recepies.exe
+﻿  ProductWithVolume.cpp
+  Recepie.cpp
+C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(30,32): error C2065: '_name': undeclared identifier
+C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(31,28): error C2065: '_hash': undeclared identifier
+C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(33,27): error C2065: '_name': undeclared identifier
+C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(35,27): error C2065: '_hash': undeclared identifier
+  Recepies.cpp
+C:\Users\Cveti\source\repos\Recepies\Recepies\Recepies.cpp(43,20): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
