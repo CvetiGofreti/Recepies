@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DateTime.cpp" />
+    <ClCompile Include="Link.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ProductWithVolume.cpp" />
     <ClCompile Include="Recepie.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Functions.h" />
     <ClInclude Include="DateTime.h" />
     <ClInclude Include="FoodGroup.h" />
+    <ClInclude Include="Link.h" />
     <ClInclude Include="ProductWithVolume.h" />
     <ClInclude Include="Recepie.h" />
     <ClInclude Include="Recepies.h" />

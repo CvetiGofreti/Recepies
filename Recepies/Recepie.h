@@ -5,25 +5,31 @@
 #include "ProductWithVolume.h"
 #include <vector>
 #include "User.h"
+#include "Link.h"
 
 class Recepie
 {
 public:
-	Recepie(std::string title, FoodGrup foodGroup, unsigned int time, std::vector<ProductWithVolume> products,	std::string algorithm,	std::string link);
-	unsigned int getId() const;
-	void serizalize() const;
-
+	Recepie(std::string title, int foodGroup, int timeToMake, std::vector<ProductWithVolume> products, std::string algorithm, std::vector<Link> links, int ownerId);
+	int getId() const;
+	int getOwnerId() const;
+	void serizalize(std::ofstream &oFile) const;
+	bool isDeleted() const;
+	void deleteProduct();
+	std::string getTitle() const;
+	void printTitle() const;
 private:
 	std::string _title;
-	FoodGrup _foodGroup;
-	unsigned int _timeToMake;
+	int _foodGroup;
+	int _timeToMake;
 	std::vector<ProductWithVolume> _products;
 	std::string _algorithm;
-	std::string _link;
+	std::vector<Link> _links;
 	DateTime _addTime;
 	double _rating;
-	unsigned int _id;
-	User* _owner;
+	int _id;
+	int _ownerId;
+	bool _deleted;
 protected:
-	static unsigned int nextIdRecepie;
+	static int nextIdRecepie;
 };

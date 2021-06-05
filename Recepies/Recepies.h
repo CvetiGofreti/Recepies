@@ -13,8 +13,8 @@ public:
 	Recepies& operator=(const Recepies& other);
 	void load(const char* filename);
 	void addRecepie(Recepie* recepie);
-	Recepie* operator[](unsigned int index);
-	Recepie* getRecepieById(unsigned int id);
+	Recepie* operator[](int index);
+	Recepie* getRecepieById(int id);
 	int getSize();
 	~Recepies();
 };

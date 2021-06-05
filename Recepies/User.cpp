@@ -1,6 +1,6 @@
 #include "User.h"
 #include <fstream>
-unsigned int User::nextId = 0;
+int User::nextId = 0;
 
 User::User(std::string name, std::string hash) {
 	_id = ++nextId;
@@ -8,7 +8,7 @@ User::User(std::string name, std::string hash) {
 	_hash = hash;
 }
 
-unsigned int User::getId() const {
+int User::getId() const {
 	return _id;
 }
 
@@ -25,14 +25,13 @@ void User::printInfo() const {
 		<< "Id: " << _id << std::endl;
 }
 
-void User::serizalize() const {
-	std::ofstream oFile;
-	oFile.open("users.db", std::ios::binary | std::ios::out | std::ios::app);
+void User::serizalize(std::ofstream &oFile) const {
+
 	if (!oFile.is_open()) {
 		throw std::exception("Could not open file");
 	}
-	unsigned int usernameLength = _name.size();
-	unsigned int hashLength = _hash.size();
+	int usernameLength = _name.size();
+	int hashLength = _hash.size();
 	oFile.write((const char*)&usernameLength, sizeof(usernameLength));
 	oFile.write((const char*)_name.data(), usernameLength);
 	oFile.write((const char*)&hashLength, sizeof(hashLength));

@@ -3,23 +3,10 @@
 #include "Functions.h"
 
 
-
-
-//register = 0
-//login = 1
-//logout = 2
-//addRecepie = 4
-//changeRecepie = 5
-//deleteRecepie = 6
-//pregled = 7
-//tyrsene 8
-//ocenka9
-//spisyk10
-//pregled na profil11
-//pregled na recepti12
-//pregled na ocenki13
-//exit 14
 int main() {
+	
+	Recepies myRecepieList;
+	myRecepieList.load("recepies.db");
 	Users myUserList;
 	myUserList.load("users.db");
 	std::string myCommand = "";
@@ -29,13 +16,10 @@ int main() {
 		std::cin >> myCommand;
 		if (!isValidCommand(myCommand)) {
 			std::cout << "Invalid command.Enter again: " << std::endl;
-		}
-		
-		else {
+		}else {
 			indexOfCommand = indexOfCommandfunc(myCommand);
 			switch (indexOfCommand)
 			{
-			
 			case 0 :
 				registerUser(myUserList);
 				break;
@@ -45,7 +29,33 @@ int main() {
 			case 2:
 				logoutUser();
 				break;
-			case 14:
+			case 3:
+				addRecepie(myRecepieList);
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+			case 8:
+				break;
+			case 9:
+				break;
+			case 10:
+				myProfil(myUserList);
+				break;
+			case 11:
+				myRecepies(myRecepieList);
+				break;
+			case 12:
+				break;
+			case 13:
+				std::cout << "Saving changes..." << std::endl;
+				save(myRecepieList);
+				std::cout << "Changes saved!" << std::endl;
 				std::cout << "Exiting..." << std::endl;
 				return 0;
 			default:

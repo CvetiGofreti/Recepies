@@ -30,7 +30,7 @@ Users& Users:: operator=(const Users& other) {
 	return *this;
 }
 
-User* Users::operator[](unsigned int index) {
+User* Users::operator[](int index) {
 	if (index >= _userList.size()) {
 		throw std::exception("Invalid index");
 	}
@@ -38,7 +38,7 @@ User* Users::operator[](unsigned int index) {
 	return _userList[index];
 }
 
-User* Users::getUserById(unsigned int id) {
+User* Users::getUserById(int id) {
 	for (int i = 0; i < _userList.size(); i++) {
 		if (_userList[i]->getId() == id) {
 			return _userList[i];
@@ -52,11 +52,11 @@ void Users::load(const char* filename) {
 	std::ifstream iFile;
 	iFile.open(filename, std::ios::binary | std::ios::in);
 	if (!iFile.is_open()) {
-		std::cout <<  "Database is empty!";
+		std::cout <<  "Database is empty!" << std::endl;
 		return;
 	}
-	unsigned int usernameLength = 0;
-	unsigned int hashLength = 0;
+	int usernameLength = 0;
+	int hashLength = 0;
 	iFile.seekg(0, std::ios::beg);
 	while (!iFile.eof()) {
 		iFile.read((char*)&usernameLength, sizeof(usernameLength));

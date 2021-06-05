@@ -13,8 +13,8 @@ public:
 	Users& operator=(const Users& other);
 	void load(const char* filename);
 	void addUser(User* user);
-	User* operator[](unsigned int index);
-	User* getUserById(unsigned int id);
+	User* operator[](int index);
+	User* getUserById(int id);
 	int getSize();
 	~Users();
 };
