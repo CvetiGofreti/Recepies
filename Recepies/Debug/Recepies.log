@@ -1,7 +1,10 @@
-﻿  Recepie.cpp
-C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(36,2): error C2065: 'size_type': undeclared identifier
-C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(36,12): error C2146: syntax error: missing ';' before identifier 'titleLength'
-C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(36,12): error C2065: 'titleLength': undeclared identifier
-C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(52,28): error C2065: 'titleLength': undeclared identifier
-C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(52,48): error C2065: 'titleLength': undeclared identifier
-C:\Users\Cveti\source\repos\Recepies\Recepies\Recepie.cpp(53,42): error C2065: 'titleLength': undeclared identifier
+﻿  main.cpp
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(27,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(250,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(253,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(303,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(341,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(361,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(276,7): warning C4101: 'space': unreferenced local variable
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(111): warning C4715: 'indexOfCommandfunc': not all control paths return a value
+  Recepies.vcxproj -> C:\Users\Cveti\source\repos\Recepies\Debug\Recepies.exe

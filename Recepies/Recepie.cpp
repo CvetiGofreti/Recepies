@@ -81,7 +81,6 @@ void Recepie::serizalize(std::ofstream& oFile) const {
 
 	oFile.write((const char*)&_ownerId, sizeof(_ownerId));
 
-	oFile.close();
 }
 
 bool Recepie::isDeleted() const {
@@ -98,4 +97,21 @@ std::string Recepie::getTitle() const {
 
 void Recepie::printTitle() const {
 	std::cout << "Recepie Title: " << _title << std::endl;
+}
+
+void Recepie::calculateRating(Ratings& myRatingList) {
+	int counter = 0;
+	int sumOfRatings = 0;
+	for (int i = 0; i < myRatingList.getSize(); i++) {
+		if (myRatingList[i]->getRecepieId() == _id) {
+			counter++;
+			sumOfRatings += (myRatingList[i]->getValue());
+		}
+	}
+	if (counter == 0) {
+		_rating = 3;
+	}
+	else {
+		_rating = sumOfRatings / counter;
+	}
 }

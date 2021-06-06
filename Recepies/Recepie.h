@@ -6,6 +6,7 @@
 #include <vector>
 #include "User.h"
 #include "Link.h"
+#include "Ratings.h"
 
 class Recepie
 {
@@ -18,6 +19,8 @@ public:
 	void deleteProduct();
 	std::string getTitle() const;
 	void printTitle() const;
+	void calculateRating(Ratings& myRatingList);
+
 private:
 	std::string _title;
 	int _foodGroup;

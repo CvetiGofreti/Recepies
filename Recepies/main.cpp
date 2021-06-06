@@ -4,7 +4,8 @@
 
 
 int main() {
-	
+	Ratings myRatingsList;
+	myRatingsList.load("ratings.db");
 	Recepies myRecepieList;
 	myRecepieList.load("recepies.db");
 	Users myUserList;
@@ -41,6 +42,7 @@ int main() {
 			case 7:
 				break;
 			case 8:
+				rateRecepie(myRecepieList, myRatingsList);
 				break;
 			case 9:
 				break;
@@ -51,6 +53,8 @@ int main() {
 				myRecepies(myRecepieList);
 				break;
 			case 12:
+				
+				printUserRatings(CURR_LOGGED_USER, myRecepieList, myRatingsList);
 				break;
 			case 13:
 				std::cout << "Saving changes..." << std::endl;

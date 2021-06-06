@@ -9,6 +9,7 @@
 #include "ProductWithVolume.h"
 #include "Recepies.h"
 #include <fstream>
+#include "Ratings.h"
 unsigned int CURR_LOGGED_USER = 0;
 
 int intPow(int a, int b) {
@@ -312,7 +313,7 @@ void addRecepie(Recepies& myRecepieList) {
 			i--;
 			continue;
 		}
-		foodGroup = foodGroup + intPow(2, foodGroupIndex);
+		foodGroup = foodGroup + intPow(2, foodGroupIndex - 1);
 	}
 	
 	std::cout << "Enter time to make: " << std::endl;
@@ -368,8 +369,8 @@ void addRecepie(Recepies& myRecepieList) {
 	oFile.open("recepies.db", std::ios::binary | std::ios::out | std::ios::app);
 	toAddRecepie->serizalize(oFile);
 	myRecepieList.addRecepie(toAddRecepie);
-	std::cout << "Recepie added!";
-
+	std::cout << "Recepie added!" << std::endl;
+	oFile.close();
 }
 
 void save(Recepies& myRecepieList) {
@@ -381,11 +382,12 @@ void save(Recepies& myRecepieList) {
 			myRecepieList[i]->serizalize(oFile);
 		}
 	}
+	oFile.close();
 }
 
 void myProfil(Users& myUsersList) {
 	if (CURR_LOGGED_USER == 0) {
-		std::cout << "You must log in to view profil info";
+		std::cout << "You must log in to view profil info" << std::endl;
 		return;
 	}
 	myUsersList.getUserById(CURR_LOGGED_USER)->printInfo();
@@ -393,7 +395,7 @@ void myProfil(Users& myUsersList) {
 
 void myRecepies(Recepies& myRecepieList) {
 	if (CURR_LOGGED_USER == 0) {
-		std::cout << "You must log in to view profil info";
+		std::cout << "You must log in to view recepies." << std::endl;
 		return;
 	}
 	int recepieCounter = 1;
@@ -402,5 +404,81 @@ void myRecepies(Recepies& myRecepieList) {
 			std::cout << recepieCounter << ". " << myRecepieList[i]->getTitle() << std::endl;
 			recepieCounter++;
 		}
+	}
+}
+
+void rateRecepie(Recepies& myRecepieList, Ratings& myRatingsList) {
+	if (CURR_LOGGED_USER == 0) {
+		std::cout << "You must log in to rate recepie!" << std::endl;
+		return;
+	}
+	myRecepieList.print();
+	std::cout << "Enter recepie Id you would like to rate: " << std::endl;
+	int recepieId;
+	
+	while (true) {
+		std::cin >> recepieId;
+		if (!myRecepieList.getRecepieById(recepieId)) {
+			std::cout << "Recepie doesn't exist. Enter again: " << std::endl;
+			continue;
+		}else {
+			if (myRecepieList.getRecepieById(recepieId)->isDeleted()) {
+				std::cout << "Recepie is deleted. Enter again: " << std::endl;
+				continue;
+			}
+			else {
+				if (myRecepieList.getRecepieById(recepieId)->getOwnerId() == CURR_LOGGED_USER) {
+					std::cout << "Cant rate own recepie. Enter again: " << std::endl;
+					continue;
+				}
+				else {
+					if (myRatingsList.existRating(CURR_LOGGED_USER, recepieId)) {
+						std::cout << "Cant rate recepie twice. Enter again: " << std::endl;
+						continue;
+					}
+				}
+			}
+		}
+		break;
+	}
+	std::cout << "Enter rate value between [1, 5]: " << std::endl;
+	int value;
+	
+	while (true) {
+		std::cin >> value;
+		if (value > 0 && value < 6) {
+			break;
+		}
+		else {
+			std::cout << "Invalid rating value. Enter again: " << std::endl;
+		}
+	}
+
+	Rating* toAdd = new Rating(value, recepieId, CURR_LOGGED_USER);
+	myRatingsList.addRating(toAdd);
+
+	std::ofstream oFile;
+	oFile.open("ratings.db", std::ios::binary | std::ios::out | std::ios::app);
+	toAdd->serizalize(oFile);
+	std::cout << "Rating added!" << std::endl;
+	myRecepieList.getRecepieById(recepieId)->calculateRating(myRatingsList);
+	oFile.close();
+}
+
+
+void printUserRatings(int userId, Recepies& myRecepiesList, Ratings& myRatingList) {
+	if (CURR_LOGGED_USER == 0) {
+		std::cout << "You must log in to see your reviews." << std::endl;
+		return;
+	}
+	int index = 1;
+	for (int i = 0; i < myRatingList.getSize(); i++) {
+		if (myRatingList[i]->getUserId() == userId) {
+			std::cout << index << ". " << myRecepiesList.getRecepieById(myRatingList[i]->getRecepieId())->getTitle() << std::endl << "Rating value: " << myRatingList[i]->getValue() << std::endl << "Recepie id: " << myRatingList[i]->getRecepieId() << std::endl;
+			index++;
+		}
+	}
+	if (index == 1) {
+		std::cout << "No Reviews to show!" << std::endl;
 	}
 }

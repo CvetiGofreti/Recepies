@@ -1,7 +1,6 @@
 #pragma once
 #include "Recepie.h"
 #include <vector>
-
 class Recepies
 {
 private:
@@ -16,6 +15,7 @@ public:
 	Recepie* operator[](int index);
 	Recepie* getRecepieById(int id);
 	int getSize();
+	void print() const;
 	~Recepies();
 };
 

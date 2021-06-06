@@ -147,7 +147,7 @@ void Recepies::addRecepie(Recepie* recepie) {
 }
 
 Recepie* Recepies::operator[](int index) {
-	if (index >= _recepieList.size()) {
+	if (index >= _recepieList.size() || index < 0) {
 		throw std::exception("Invalid index");
 	}
 	return _recepieList[index];
@@ -163,8 +163,21 @@ Recepie* Recepies::getRecepieById(int id) {
 	return nullptr;
 }
 
+
+
 int Recepies::getSize() {
 	return _recepieList.size();
+}
+
+void Recepies::print() const { 
+	int place = 1;
+	std::cout << "Recepies list: " << std::endl;
+	for (Recepie* recepie : _recepieList) {
+		if (!(recepie->isDeleted())) {
+			std::cout << place << ". " << recepie->getTitle() << " Id: " << recepie->getId() << std::endl;
+			place++;
+		}
+	}
 }
 
 Recepies::~Recepies() {

@@ -143,6 +143,8 @@
     <ClCompile Include="Link.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ProductWithVolume.cpp" />
+    <ClCompile Include="Rating.cpp" />
+    <ClCompile Include="Ratings.cpp" />
     <ClCompile Include="Recepie.cpp" />
     <ClCompile Include="Recepies.cpp" />
     <ClCompile Include="User.cpp" />
@@ -154,6 +156,8 @@
     <ClInclude Include="FoodGroup.h" />
     <ClInclude Include="Link.h" />
     <ClInclude Include="ProductWithVolume.h" />
+    <ClInclude Include="Rating.h" />
+    <ClInclude Include="Ratings.h" />
     <ClInclude Include="Recepie.h" />
     <ClInclude Include="Recepies.h" />
     <ClInclude Include="User.h" />

@@ -31,7 +31,7 @@ Users& Users:: operator=(const Users& other) {
 }
 
 User* Users::operator[](int index) {
-	if (index >= _userList.size()) {
+	if (index >= _userList.size() || index < 0) {
 		throw std::exception("Invalid index");
 	}
 	
