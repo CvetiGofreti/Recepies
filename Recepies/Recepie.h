@@ -16,10 +16,24 @@ public:
 	int getOwnerId() const;
 	void serizalize(std::ofstream &oFile) const;
 	bool isDeleted() const;
-	void deleteProduct();
+	void deleteRecepie();
 	std::string getTitle() const;
 	void printTitle() const;
 	void calculateRating(Ratings& myRatingList);
+	int getTimesVisited() const;
+	void visit();
+	void setVisits(int visits);
+	void setTitle(std::string newTitle);
+	void setAlgorithm(std::string newAlgorithm);
+	void setTimeToMake(int newTimeToMake);
+	int getFoodGroup() const;
+	void addFoodGroup(int foodGroupIndex);
+	double getRating() const;
+	DateTime getAddTime() const;
+
+	void printAllInfo() const;
+
+
 
 private:
 	std::string _title;
@@ -33,6 +47,7 @@ private:
 	int _id;
 	int _ownerId;
 	bool _deleted;
+	int _timesVisited;
 protected:
 	static int nextIdRecepie;
 };

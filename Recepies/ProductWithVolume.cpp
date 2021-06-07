@@ -15,6 +15,10 @@ double ProductWithVolume::getVolume() {
 	return _volume;
 }
 
+std::string ProductWithVolume::getUnit() {
+	return _unit;
+}
+
 void ProductWithVolume::serizalize(std::ofstream& oFile) const {
 	oFile.write((const char*)&_volume, sizeof(_volume));
 
@@ -33,4 +37,8 @@ bool ProductWithVolume::isDeleted() const {
 
 void ProductWithVolume::deleteProduct() {
 	deleted = true;
+}
+
+void ProductWithVolume::printInfo() const{
+	std::cout << "Product: " << _product << ", Volume: " << _volume << ", Unit: " << _unit << std::endl;
 }

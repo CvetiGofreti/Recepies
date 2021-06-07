@@ -10,6 +10,7 @@
 #include "Recepies.h"
 #include <fstream>
 #include "Ratings.h"
+
 unsigned int CURR_LOGGED_USER = 0;
 
 int intPow(int a, int b) {
@@ -34,6 +35,24 @@ bool areEqualCaseInsesitiveWords(std::string word1, std::string word2) {
 //https://stackoverflow.com/questions/11635/case-insensitive-string-comparison-in-c
 //https://www.cplusplus.com/reference/cctype/tolower/
 
+std::string toLowerLetters(std::string str) {
+	std::string lower = "";
+	for (char sign : str) {
+		lower += tolower(sign);
+	}
+	return lower;
+}
+
+bool containsString(std::string main, std::string check) {
+	if (check.length() > main.length()) {
+		return false;
+	}
+	if (main.find(check) != std::string::npos) {
+		return true;
+	}
+	return false;
+}
+
 bool isValidCommand(std::string command) {
 	return areEqualCaseInsesitiveWords(command, "login")
 		|| areEqualCaseInsesitiveWords(command, "register")
@@ -46,25 +65,11 @@ bool isValidCommand(std::string command) {
 		|| areEqualCaseInsesitiveWords(command, "searchRecepie")
 		|| areEqualCaseInsesitiveWords(command, "doRecepieReview")
 		|| areEqualCaseInsesitiveWords(command, "getTopChart")
-		|| areEqualCaseInsesitiveWords(command, "myProfil")
+		|| areEqualCaseInsesitiveWords(command, "viewProfil")
 		|| areEqualCaseInsesitiveWords(command, "myRecepies")
 		|| areEqualCaseInsesitiveWords(command, "myReviews");
 		
 }
-//register = 0
-//login = 1
-//logout = 2
-//addRecepie = 3
-//changeRecepie = 4
-//deleteRecepie = 5
-//pregled = 6
-//tyrsene = 7
-//ocenka = 8
-//spisyk = 9
-//pregled na profil = 10
-//pregled na recepti = 11
-//pregled na ocenki = 12
-//exit = 13
 int indexOfCommandfunc(std::string command) {
 	if (areEqualCaseInsesitiveWords(command, "register")) {
 		return 0;
@@ -96,7 +101,7 @@ int indexOfCommandfunc(std::string command) {
 	if (areEqualCaseInsesitiveWords(command, "getTopChart")) {
 		return 9;
 	}
-	if (areEqualCaseInsesitiveWords(command, "myProfil")) {
+	if (areEqualCaseInsesitiveWords(command, "viewProfil")) {
 		return 10;
 	}
 	if (areEqualCaseInsesitiveWords(command, "myRecepies")) {
@@ -273,7 +278,6 @@ void addRecepie(Recepies& myRecepieList) {
 	std::string volumeStr;
 	double volume;
 	std::string unit;
-	char space;
 	unsigned int numberOfProducts;
 	unsigned int numberOfLinks;
 
@@ -350,7 +354,7 @@ void addRecepie(Recepies& myRecepieList) {
 	}
 	std::cout << "Enter algorithm with maximum 10000 symbols and at the end write '~': " << std::endl;
 	std::cin >> std::ws;
-	std::getline(std::cin, algorithm,'~');
+	std::getline(std::cin, algorithm, '~');
 	if (algorithm.length() > 10000) {
 		algorithm.resize(10000);
 	}
@@ -393,23 +397,38 @@ void myProfil(Users& myUsersList) {
 	myUsersList.getUserById(CURR_LOGGED_USER)->printInfo();
 }
 
-void myRecepies(Recepies& myRecepieList) {
+bool myRecepies(Recepies& myRecepieList) {
 	if (CURR_LOGGED_USER == 0) {
 		std::cout << "You must log in to view recepies." << std::endl;
-		return;
+		return false;
 	}
 	int recepieCounter = 1;
 	for (int i = 0; i < myRecepieList.getSize(); i++) {
-		if (myRecepieList[i]->getOwnerId() == CURR_LOGGED_USER) {
-			std::cout << recepieCounter << ". " << myRecepieList[i]->getTitle() << std::endl;
+		if (myRecepieList[i]->getOwnerId() == CURR_LOGGED_USER && !myRecepieList[i]->isDeleted()) {
+			std::cout << recepieCounter << ". " << myRecepieList[i]->getTitle() << " Id: " << myRecepieList[i]->getId() << std::endl;
 			recepieCounter++;
 		}
 	}
+	if (recepieCounter == 1) {
+		std::cout << "No recepies to show!" << std::endl;
+		return false;
+	}
+	return true;
 }
 
 void rateRecepie(Recepies& myRecepieList, Ratings& myRatingsList) {
 	if (CURR_LOGGED_USER == 0) {
 		std::cout << "You must log in to rate recepie!" << std::endl;
+		return;
+	}
+	bool hasRecepiesToRate = false;
+	for (int i = 0; i < myRecepieList.getSize(); i++) {
+		if (!myRecepieList[i]->isDeleted() && myRecepieList[i]->getOwnerId() != CURR_LOGGED_USER) {
+			hasRecepiesToRate = true;
+		}
+	}
+	if (!hasRecepiesToRate) {
+		std::cout << "There are no recepies you can review" << std::endl;
 		return;
 	}
 	myRecepieList.print();
@@ -421,23 +440,18 @@ void rateRecepie(Recepies& myRecepieList, Ratings& myRatingsList) {
 		if (!myRecepieList.getRecepieById(recepieId)) {
 			std::cout << "Recepie doesn't exist. Enter again: " << std::endl;
 			continue;
-		}else {
-			if (myRecepieList.getRecepieById(recepieId)->isDeleted()) {
-				std::cout << "Recepie is deleted. Enter again: " << std::endl;
-				continue;
-			}
-			else {
-				if (myRecepieList.getRecepieById(recepieId)->getOwnerId() == CURR_LOGGED_USER) {
-					std::cout << "Cant rate own recepie. Enter again: " << std::endl;
-					continue;
-				}
-				else {
-					if (myRatingsList.existRating(CURR_LOGGED_USER, recepieId)) {
-						std::cout << "Cant rate recepie twice. Enter again: " << std::endl;
-						continue;
-					}
-				}
-			}
+		}
+		if (myRecepieList.getRecepieById(recepieId)->isDeleted()) {
+			std::cout << "Recepie is deleted. Enter again: " << std::endl;
+			continue;
+		}
+		if (myRecepieList.getRecepieById(recepieId)->getOwnerId() == CURR_LOGGED_USER) {
+			std::cout << "Cant rate own recepie. Enter again: " << std::endl;
+			continue;
+		}
+		if (myRatingsList.existRating(CURR_LOGGED_USER, recepieId)) {
+			std::cout << "Cant rate recepie twice. Enter again: " << std::endl;
+			continue;
 		}
 		break;
 	}
@@ -457,6 +471,7 @@ void rateRecepie(Recepies& myRecepieList, Ratings& myRatingsList) {
 	Rating* toAdd = new Rating(value, recepieId, CURR_LOGGED_USER);
 	myRatingsList.addRating(toAdd);
 
+
 	std::ofstream oFile;
 	oFile.open("ratings.db", std::ios::binary | std::ios::out | std::ios::app);
 	toAdd->serizalize(oFile);
@@ -464,7 +479,6 @@ void rateRecepie(Recepies& myRecepieList, Ratings& myRatingsList) {
 	myRecepieList.getRecepieById(recepieId)->calculateRating(myRatingsList);
 	oFile.close();
 }
-
 
 void printUserRatings(int userId, Recepies& myRecepiesList, Ratings& myRatingList) {
 	if (CURR_LOGGED_USER == 0) {
@@ -480,5 +494,323 @@ void printUserRatings(int userId, Recepies& myRecepiesList, Ratings& myRatingLis
 	}
 	if (index == 1) {
 		std::cout << "No Reviews to show!" << std::endl;
+	}
+}
+
+void searchByName(Recepies& myRecepiesList) {
+	int counter = 1;
+	std::string searchedName;
+	std::cout << "Enter search: " << std::endl;
+	std::cin >> std::ws;
+	std::getline(std::cin, searchedName, '\n');
+	for (int i = 0; i < myRecepiesList.getSize(); i++) {
+		if (!myRecepiesList[i]->isDeleted() && containsString(toLowerLetters(myRecepiesList[i]->getTitle()), toLowerLetters(searchedName))) {
+			std::cout << counter << ". " << myRecepiesList[i]->getTitle() << " Id: " << myRecepiesList[i]->getId() << std::endl;
+			counter++;
+		}
+	}
+	if (counter == 1) {
+		std::cout << "No recepies match this search. " << std::endl;
+	}
+}
+
+void viewProfil(Users& myUsersList, Recepies& myRecepieList) {
+	int searchedId;
+	int counter = 1;
+	for (int i = 0; i < myUsersList.getSize(); i++) {
+		std::cout << counter << ". " << myUsersList[i]->getName() << "  Id: " << myUsersList[i]->getId() << std::endl;
+		counter++;
+	}
+	std::cout << "Enter Id of user you want to see info about." << std::endl;
+	while (true) {
+		std::cin >> searchedId;
+		if (!myUsersList.getUserById(searchedId)) {
+			std::cout << "No user with this id exists.Enter again: " << std::endl;
+			continue;
+		}
+		break;
+	}
+
+
+	myUsersList.getUserById(searchedId)->printInfo();
+	bool hasRecepies = false;
+	for (int i = 0; i < myRecepieList.getSize(); i++) {
+		
+		if (myRecepieList[i]->getOwnerId() == searchedId) {
+			if (!hasRecepies) {
+				std::cout << "Recepies: " << std::endl;
+				hasRecepies = true;
+			}
+			myRecepieList[i]->printTitle();
+		}
+	}
+	if (!hasRecepies) {
+		std::cout << "No recepies to show." << std::endl;
+	}
+}
+
+void deleteRecepie(Recepies& myRecepieList) {
+	int idToDelete;
+	if (CURR_LOGGED_USER == 0) {
+		std::cout << "You must login to delete recepie." << std::endl;
+		return;
+	}
+	if (!myRecepies(myRecepieList)) {
+		return;
+	}
+	std::cout << "Enter Id of recepie you would like to delete: " << std::endl;
+	while (true) {
+		std::cin >> idToDelete;
+		if (!myRecepieList.getRecepieById(idToDelete)) {
+			std::cout << "Recepie doesn't exist. Enter again: " << std::endl;
+			continue;
+		}
+		if (myRecepieList.getRecepieById(idToDelete)->isDeleted() || myRecepieList.getRecepieById(idToDelete)->getOwnerId() != CURR_LOGGED_USER) {
+			std::cout << "Recepie doesn't exist or it doesn't belong to you. Enter again: " << std::endl;
+			continue;
+		}
+		break;
+	}
+	myRecepieList.getRecepieById(idToDelete)->deleteRecepie();
+	std::cout << "Recepie deleted! " << std::endl;
+
+}
+
+void changeRecepie(Recepies& myRecepieList) {
+	int idToChange;
+	if (CURR_LOGGED_USER == 0) {
+		std::cout << "You must log in to view recepies." << std::endl;
+		return;
+	}
+	if (!myRecepies(myRecepieList)) {
+		return;
+	}
+	std::cout << "Enter Id of recepie you would like to change: " << std::endl;
+	while (true) {
+		std::cin >> idToChange;
+		if (!myRecepieList.getRecepieById(idToChange)) {
+			std::cout << "Recepie doesn't exist. Enter again: " << std::endl;
+			continue;
+		}
+		if (myRecepieList.getRecepieById(idToChange)->isDeleted() || myRecepieList.getRecepieById(idToChange)->getOwnerId() != CURR_LOGGED_USER) {
+			std::cout << "Recepie doesn't exist or it doesn't belong to you. Enter again: " << std::endl;
+			continue;
+		}
+		break;
+	}
+	int changeItem = 0;
+
+	/*std::string _title;
+	int _foodGroup;
+	int _timeToMake;
+	std::vector<ProductWithVolume> _products;
+	std::string _algorithm;
+	std::vector<Link> _links;*/
+	std::cout << "List of changeable values: " << std::endl
+		<< "1. Title" << std::endl
+		<< "2. Food groups" << std::endl
+		<< "3. Time to make" << std::endl
+		<< "4. Products" << std::endl
+		<< "5. Algorithm" << std::endl
+		<< "6. links" << std::endl 
+		<< "Enter index of value you want to change: " << std::endl;
+
+	while (true) {
+		std::cin >> changeItem;
+		if (changeItem > 0 && changeItem < 7) {
+			break;
+		}
+		std::cout << "Invalid index.Enter again: " << std::endl;
+	}
+
+	std::string newValue;
+	int newValueInt;
+	int foodGroupIndex;
+	int groups = myRecepieList.getRecepieById(idToChange)->getFoodGroup();
+	int numberOfFoodGroups = 0;
+
+	switch (changeItem)
+	{
+	case 1:
+		std::cout << "Enter new title: " << std::endl;
+		std::cin >> std::ws;
+		std::getline(std::cin, newValue, '\n');
+		myRecepieList.getRecepieById(idToChange)->setTitle(newValue);
+		break;
+	case 2:
+		std::cout << "Current groups are: " << std::endl;
+		if ((groups & 1) != 0) {
+			std::cout << "vegetables" << std::endl;
+			numberOfFoodGroups++;
+		}
+		if ((groups & 2) != 0) {
+			std::cout << "fruits" << std::endl;
+			numberOfFoodGroups++;
+		}
+		if ((groups & 4) != 0) {
+			std::cout << "cereals" << std::endl;
+			numberOfFoodGroups++;
+		}
+		if ((groups & 8) != 0) {
+			std::cout << "meat" << std::endl;
+			numberOfFoodGroups++;
+		}
+		if ((groups & 16) != 0) {
+			std::cout << "seafood" << std::endl;
+			numberOfFoodGroups++;
+		}
+		if ((groups & 32) != 0) {
+			std::cout << "dairy" << std::endl;
+			numberOfFoodGroups++;
+		}
+		if ((groups & 64) != 0) {
+			std::cout << "eggs" << std::endl;
+			numberOfFoodGroups++;
+		}
+		if (numberOfFoodGroups == 1) {
+				std::cout << "List of groups: " << std::endl 
+				<< "1. Vegetables" << std::endl 
+				<< "2. Fruits" << std::endl 
+				<< "3. Cereals" << std::endl
+				<< "4. Meat" << std::endl 
+				<< "5. Seafood" << std::endl 
+				<< "6. Dairy" << std::endl 
+				<< "7. Eggs" << std::endl;
+
+				std::cout << "Enter index of food group you would like to add: " << std::endl;
+
+				while (true) {
+					std::cin >> foodGroupIndex;
+					if (foodGroupIndex > 7 || foodGroupIndex <= 0) {
+						std::cout << "Invalid index. Enter again: " << std::endl;
+						continue;
+					}
+					if ((groups & intPow(2, foodGroupIndex - 1)) != 0) {
+						std::cout << "Group is already added. Enter again: " << std::endl;
+						continue;
+					}
+					break;
+				}
+				myRecepieList.getRecepieById(idToChange)->addFoodGroup(foodGroupIndex);
+				return;
+		}
+		std::cout << "Do you want to delete or add food group?" << std::endl;
+		break;
+	case 3:
+		while (true) {
+			std::cin >> newValueInt;
+			if (newValueInt <= 0) {
+				std::cout << "Invalid value. Enter again: " << std::endl;
+				continue;
+			}
+			break;
+		}
+		myRecepieList.getRecepieById(idToChange)->setTimeToMake(newValueInt);
+		break;
+	case 4:
+		break;
+	case 5:
+		std::cout << "Enter algorithm with maximum 10000 symbols and at the end write '~': " << std::endl;
+		std::cin >> std::ws;
+		std::getline(std::cin, newValue, '\n');
+		if (newValue.length() > 10000) {
+			newValue.resize(10000);
+		}
+		myRecepieList.getRecepieById(idToChange)->setAlgorithm(newValue);
+		break;
+	case 6:
+		break;
+	default:
+		break;
+	}
+}
+
+void previewRecepie(Recepies& myRecepieList) {}
+
+void getTopChart(Recepies& myRecepieList) {
+	if (myRecepieList.isEmpty()) {
+		std::cout << "There are no recepies." << std::endl;
+		return;
+	}
+	int n;
+	std::string typeOfChart;
+	std::cout << "Enter number of recepies: " << std::endl;
+	while (true) {
+		std::cin >> n;
+		if (n > 0) {
+			break;
+		}
+		std::cout << "Number must be atleast 1. Enter again: " << std::endl;
+	}
+	std::cout << "Enter type of chart popular rated or recent: " << std::endl;
+	while (true) {
+		std::cin >> typeOfChart;
+		if (areEqualCaseInsesitiveWords(typeOfChart, "popular")) {
+			std::vector<Recepie*> toSort = myRecepieList.getRecepieList();
+			int maxPopularity = myRecepieList[0]->getTimesVisited();
+			for (int i = 0; i < myRecepieList.getSize() - 1; i++) {
+				if (toSort[i]->getTimesVisited() < toSort[i + 1]->getTimesVisited()) {
+					Recepie* temp = toSort[i];
+					toSort[i] = toSort[i + 1];
+					toSort[i + 1] = temp;
+				}
+			}
+			int counter = 1;
+			for (int i = 0; i < n; i++) {
+				if (!myRecepieList[i]) {
+					return;
+				}
+				if (!toSort[i]->isDeleted()) {
+					std::cout << counter << ". ";
+					toSort[i]->printTitle();
+				}
+			}
+			return;
+		}
+		if (areEqualCaseInsesitiveWords(typeOfChart, "rated")) {
+			std::vector<Recepie*> toSort = myRecepieList.getRecepieList();
+			int maxPopularity = myRecepieList[0]->getTimesVisited();
+			for (int i = 0; i < myRecepieList.getSize() - 1; i++) {
+				if (toSort[i]->getRating() < toSort[i + 1]->getRating()) {
+					Recepie* temp = toSort[i];
+					toSort[i] = toSort[i + 1];
+					toSort[i + 1] = temp;
+				}
+			}
+			int counter = 1;
+			for (int i = 0; i < n; i++) {
+				if (!myRecepieList[i]) {
+					return;
+				}
+				if (!toSort[i]->isDeleted()) {
+					std::cout << counter << ". ";
+					toSort[i]->printTitle();
+				}
+			}
+			return;
+		}
+		if (areEqualCaseInsesitiveWords(typeOfChart, "recent")) {
+			std::vector<Recepie*> toSort = myRecepieList.getRecepieList();
+			int maxPopularity = myRecepieList[0]->getTimesVisited();
+			for (int i = 0; i < myRecepieList.getSize() - 1; i++) {
+				if (toSort[i]->getAddTime() < toSort[i + 1]->getAddTime()) {
+					Recepie* temp = toSort[i];
+					toSort[i] = toSort[i + 1];
+					toSort[i + 1] = temp;
+				}
+			}
+			int counter = 1;
+			for (int i = 0; i < n; i++) {
+				if (!myRecepieList[i]) {
+					return;
+				}
+				if (!toSort[i]->isDeleted()) {
+					std::cout << counter << ". ";
+					toSort[i]->printTitle();
+				}
+			}
+			return;
+		}
+		std::cout << "Invalid type. Enter again: " << std::endl;
 	}
 }

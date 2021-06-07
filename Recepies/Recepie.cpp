@@ -19,11 +19,110 @@ Recepie::Recepie(std::string title, int foodGroup, int timeToMake, std::vector<P
 	_id = ++nextIdRecepie;
 	_ownerId = ownerId;
 	_deleted = false;
+	_timesVisited = 0;
 }
 
 int Recepie::getId() const {
 	return _id;
 }
+
+int Recepie::getTimesVisited() const {
+	return _timesVisited;
+}
+
+void Recepie::visit() {
+	_timesVisited++;
+}
+
+void Recepie::setVisits(int visits) {
+	_timesVisited = visits;
+}
+
+void Recepie::setTitle(std::string newTitle) {
+	_title = newTitle;
+}
+
+void Recepie::setAlgorithm(std::string newAlgorithm) {
+	_algorithm = newAlgorithm;
+}
+
+
+int Recepie::getFoodGroup()const {
+	return _foodGroup;
+}
+
+void Recepie::addFoodGroup(int foodGroupIndex) {
+	int result = 1;
+	for (int i = 0; i < foodGroupIndex - 1; i++) {
+		result *= 2;
+	}
+	_foodGroup = _foodGroup + result;
+}
+
+void Recepie::printAllInfo() const {
+	std::cout << "Title: " << _title << std::endl;
+	std::cout << "FoodGroups: " << std::endl;
+
+	int numberOfFoodGroups = 1;
+	if ((_foodGroup & 1) != 0) {
+		std::cout  << numberOfFoodGroups<< ". vegetables" << std::endl;
+		numberOfFoodGroups++;
+	}
+	if ((_foodGroup & 2) != 0) {
+		std::cout << numberOfFoodGroups << ". fruits" << std::endl;
+		numberOfFoodGroups++;
+	}
+	if ((_foodGroup & 4) != 0) {
+		std::cout << numberOfFoodGroups << ". cereals" << std::endl;
+		numberOfFoodGroups++;
+	}
+	if ((_foodGroup & 8) != 0) {
+		std::cout << numberOfFoodGroups << ". meat" << std::endl;
+		numberOfFoodGroups++;
+	}
+	if ((_foodGroup & 16) != 0) {
+		std::cout << numberOfFoodGroups << ". seafood" << std::endl;
+		numberOfFoodGroups++;
+	}
+	if ((_foodGroup & 32) != 0) {
+		std::cout << numberOfFoodGroups << ". dairy" << std::endl;
+		numberOfFoodGroups++;
+	}
+	if ((_foodGroup & 64) != 0) {
+		std::cout << numberOfFoodGroups << ". eggs" << std::endl;
+	}
+
+	std::cout << "Time to make: " << _timeToMake << std::endl;
+	std::cout << "Products: " << std::endl;
+	for (ProductWithVolume product : _products) {
+		product.printInfo();
+	}
+	std::cout << "Algorithm: " << _algorithm << std::endl;
+	std::cout << "Links: " << std::endl;
+	for (Link link : _links) {
+		link.print();
+	}
+	std::cout << "Added at: ";
+	_addTime.print();
+	std::cout << std::endl;
+	std::cout << "Rating: " << _rating << std::endl
+		<< "Id: " << _id << std::endl
+		<< "Owner Id: " << _ownerId << std::endl
+		<< "Times visited: " << _timesVisited << std::endl;
+}
+
+DateTime Recepie::getAddTime() const{
+	return _addTime;
+}
+
+double Recepie::getRating() const{
+	return _rating;
+}
+
+void Recepie::setTimeToMake(int newTimeToMake) {
+	_timeToMake = newTimeToMake;
+}
+
 
 int Recepie::getOwnerId() const {
 	return _ownerId;
@@ -81,13 +180,16 @@ void Recepie::serizalize(std::ofstream& oFile) const {
 
 	oFile.write((const char*)&_ownerId, sizeof(_ownerId));
 
+	oFile.write((const char*)&_timesVisited, sizeof(_timesVisited));
+
+
 }
 
 bool Recepie::isDeleted() const {
 	return _deleted;
 }
 
-void Recepie::deleteProduct(){
+void Recepie::deleteRecepie(){
 	_deleted = true;
 }
 

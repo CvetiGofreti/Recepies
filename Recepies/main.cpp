@@ -2,6 +2,7 @@
 #include "User.h"
 #include "Functions.h"
 
+//opravi timeAdded
 
 int main() {
 	Ratings myRatingsList;
@@ -10,6 +11,10 @@ int main() {
 	myRecepieList.load("recepies.db");
 	Users myUserList;
 	myUserList.load("users.db");
+	for (int i = 0; i < myRecepieList.getSize(); i++) {
+		myRecepieList[i]->calculateRating(myRatingsList);
+	}
+	myRecepieList[0]->printAllInfo();
 	std::string myCommand = "";
 	int indexOfCommand = -1;
 	while (true) {
@@ -34,26 +39,30 @@ int main() {
 				addRecepie(myRecepieList);
 				break;
 			case 4:
+				changeRecepie(myRecepieList);
 				break;
 			case 5:
+				deleteRecepie(myRecepieList);
 				break;
 			case 6:
+				previewRecepie(myRecepieList);
 				break;
 			case 7:
+				searchByName(myRecepieList);
 				break;
 			case 8:
 				rateRecepie(myRecepieList, myRatingsList);
 				break;
 			case 9:
+				getTopChart(myRecepieList);
 				break;
 			case 10:
-				myProfil(myUserList);
+				viewProfil(myUserList, myRecepieList);
 				break;
 			case 11:
 				myRecepies(myRecepieList);
 				break;
 			case 12:
-				
 				printUserRatings(CURR_LOGGED_USER, myRecepieList, myRatingsList);
 				break;
 			case 13:

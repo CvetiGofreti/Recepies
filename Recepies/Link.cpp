@@ -18,3 +18,7 @@ bool Link::isDeleted() const {
 void Link::deleteProduct() {
 	_deleted = true;
 }
+
+void Link::print() const{
+	std::cout << _link << std::endl;
+}

@@ -44,7 +44,7 @@ User* Users::getUserById(int id) {
 			return _userList[i];
 		}
 	}
-	throw std::exception("No user with this id");
+	//throw std::exception("No user with this id");
 	return nullptr;
 }
 

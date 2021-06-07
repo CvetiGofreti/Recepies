@@ -16,6 +16,8 @@ public:
 	Recepie* getRecepieById(int id);
 	int getSize();
 	void print() const;
+	std::vector<Recepie*> getRecepieList();
+	bool isEmpty() const;
 	~Recepies();
 };
 

@@ -15,13 +15,17 @@ public:
 	DateTime();
 	DateTime(time_t now);
 	DateTime(int day, int month, int year, int hour, int min, int sec);
-	void print();
+	void print()const ;
 	int getYear()const;
 	int getMonth()const;
 	int getDay()const;
 	int getHour()const;
 	int getMin()const;
 	int getSec()const;
+
+	bool operator<(const DateTime& other)const;
+	bool operator>(const DateTime& other)const;
+	bool operator==(const DateTime& other)const;
 
 	void serizalize(std::ofstream& oFile) const;
 

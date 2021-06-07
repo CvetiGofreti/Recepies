@@ -1,10 +1,1 @@
-﻿  main.cpp
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(27,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(250,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(253,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(303,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(341,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(361,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(276,7): warning C4101: 'space': unreferenced local variable
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(111): warning C4715: 'indexOfCommandfunc': not all control paths return a value
-  Recepies.vcxproj -> C:\Users\Cveti\source\repos\Recepies\Debug\Recepies.exe
+﻿  Recepies.vcxproj -> C:\Users\Cveti\source\repos\Recepies\Debug\Recepies.exe

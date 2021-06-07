@@ -68,6 +68,7 @@ void Recepies::load(const char* filename) {
 	double rating;
 	int id;
 	int ownerId;
+	int timesVisited;
 
 	iFile.seekg(0, std::ios::beg);
 	while (!iFile.eof()) {
@@ -136,8 +137,12 @@ void Recepies::load(const char* filename) {
 
 		iFile.read((char*)&id, sizeof(id));
 		iFile.read((char*)&ownerId, sizeof(ownerId));
+		iFile.read((char*)&timesVisited, sizeof(timesVisited));
+
 		Recepie* toAddRecepie = new Recepie(title, foodGroup, timeToMake, products, algorithm, links, ownerId);
+		toAddRecepie->setVisits(timesVisited);
 		this->addRecepie(toAddRecepie);
+
 	}
 	iFile.close();
 }
@@ -148,7 +153,8 @@ void Recepies::addRecepie(Recepie* recepie) {
 
 Recepie* Recepies::operator[](int index) {
 	if (index >= _recepieList.size() || index < 0) {
-		throw std::exception("Invalid index");
+		//throw std::exception("Invalid index");
+		return nullptr;
 	}
 	return _recepieList[index];
 }
@@ -159,7 +165,7 @@ Recepie* Recepies::getRecepieById(int id) {
 			return _recepieList[i];
 		}
 	}
-	throw std::exception("No user with this id");
+	//throw std::exception("No user with this id");
 	return nullptr;
 }
 
@@ -178,6 +184,20 @@ void Recepies::print() const {
 			place++;
 		}
 	}
+}
+
+std::vector<Recepie*> Recepies::getRecepieList() {
+	return _recepieList;
+}
+
+bool Recepies::isEmpty() const {
+	
+	for (Recepie* recepie : _recepieList) {
+		if (!recepie->isDeleted()) {
+			return false;
+		}
+	}
+	return true;
 }
 
 Recepies::~Recepies() {

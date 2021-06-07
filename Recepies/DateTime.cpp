@@ -72,7 +72,7 @@ DateTime::DateTime() {
 	this->_min = 0;
 	this->_sec = 0;
 }
-void DateTime::print(){
+void DateTime::print() const{
 	cout << this->_day << " ";
 	printMonth(this->_month);
 	cout << " " << this->_year << ", " << this->_hour << ":" << this->_min << ":" << this->_sec << endl;
@@ -94,6 +94,23 @@ int DateTime::getMin()const {
 }
 int DateTime::getSec()const {
 	return this->_sec;
+}
+
+bool DateTime::operator<(const DateTime& other) const {
+	return ((_year < other._year) ||
+		(_year == other._year && _month < other._month) ||
+		(_year == other._year && _month == other._month && _day < other._day) ||
+		(_year == other._year && _month == other._month && _day == other._day && _hour < other._hour) ||
+		(_year == other._year && _month == other._month && _day == other._day && _hour == other._hour && _min < other._min) ||
+		(_year == other._year && _month == other._month && _day == other._day && _hour == other._hour && _min == other._min && _sec < other._sec));
+}
+
+bool DateTime::operator>(const DateTime& other) const {
+	return !(*this < other) && !(*this == other);
+}
+
+bool DateTime::operator==(const DateTime& other) const {
+	return (_year == other._year && _month == other._month && _day == other._day && _hour == other._hour && _min == other._min && _sec == other._sec);
 }
 
 void DateTime::serizalize(std::ofstream& oFile) const {
