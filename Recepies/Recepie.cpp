@@ -46,6 +46,14 @@ void Recepie::setAlgorithm(std::string newAlgorithm) {
 	_algorithm = newAlgorithm;
 }
 
+void Recepie::setAddTime(const DateTime& other) {
+	_addTime = other;
+}
+
+void Recepie::addLink(Link& link) {
+	_links.push_back(link);
+}
+
 
 int Recepie::getFoodGroup()const {
 	return _foodGroup;
@@ -57,6 +65,18 @@ void Recepie::addFoodGroup(int foodGroupIndex) {
 		result *= 2;
 	}
 	_foodGroup = _foodGroup + result;
+}
+
+void Recepie::removeLink(int linkIndex) {
+	_links[linkIndex].deleteLink();
+}
+
+void Recepie::removeFoodGroup(int foodGroupIndex) {
+	int result = 1;
+	for (int i = 0; i < foodGroupIndex - 1; i++) {
+		result *= 2;
+	}
+	_foodGroup = _foodGroup - result;
 }
 
 void Recepie::printAllInfo() const {
@@ -111,6 +131,23 @@ void Recepie::printAllInfo() const {
 		<< "Times visited: " << _timesVisited << std::endl;
 }
 
+void Recepie::addProduct(ProductWithVolume& product){
+	_products.push_back(product);
+}
+
+std::vector<ProductWithVolume> Recepie::getProductList() const {
+	return _products;
+}
+
+std::vector<Link> Recepie::getLinksList() const {
+	return _links;
+}
+
+
+void Recepie::deleteProduct(int index) {
+	_products[index].deleteProduct();
+}
+
 DateTime Recepie::getAddTime() const{
 	return _addTime;
 }
@@ -119,10 +156,13 @@ double Recepie::getRating() const{
 	return _rating;
 }
 
+void Recepie::setFoodGroup(int newGroup) {
+	_foodGroup -= newGroup;
+}
+
 void Recepie::setTimeToMake(int newTimeToMake) {
 	_timeToMake = newTimeToMake;
 }
-
 
 int Recepie::getOwnerId() const {
 	return _ownerId;

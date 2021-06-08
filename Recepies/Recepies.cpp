@@ -141,6 +141,7 @@ void Recepies::load(const char* filename) {
 
 		Recepie* toAddRecepie = new Recepie(title, foodGroup, timeToMake, products, algorithm, links, ownerId);
 		toAddRecepie->setVisits(timesVisited);
+		toAddRecepie->setAddTime(addTime);
 		this->addRecepie(toAddRecepie);
 
 	}

@@ -15,7 +15,7 @@ bool Link::isDeleted() const {
 	return _deleted;
 }
 
-void Link::deleteProduct() {
+void Link::deleteLink() {
 	_deleted = true;
 }
 

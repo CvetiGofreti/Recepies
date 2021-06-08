@@ -1,10 +1,7 @@
-#include <stdlib.h>
-#include "User.h"
 #include "Functions.h"
 
-//opravi timeAdded
-
 int main() {
+
 	Ratings myRatingsList;
 	myRatingsList.load("ratings.db");
 	Recepies myRecepieList;
@@ -14,11 +11,30 @@ int main() {
 	for (int i = 0; i < myRecepieList.getSize(); i++) {
 		myRecepieList[i]->calculateRating(myRatingsList);
 	}
-	myRecepieList[0]->printAllInfo();
+
 	std::string myCommand = "";
 	int indexOfCommand = -1;
+
 	while (true) {
-		std::cout << "Enter command register/login/logout/exit: " << std::endl;
+		std::cout << "====================" << std::endl;
+		std::cout << "List of commands: " << std::endl;
+		std::cout << "1. Login" << std::endl
+			<< "2. Register" << std::endl
+			<< "3. Exit" << std::endl
+			<< "4. Logout" << std::endl
+			<< "5. AddRecepie" << std::endl
+			<< "6. ChangeRecepie" << std::endl
+			<< "7. DeleteRecepie" << std::endl
+			<< "8. PreviewRecepie" << std::endl
+			<< "9. SearchRecepie" << std::endl
+			<< "10. DoRecepieReview" << std::endl
+			<< "11. GetTopChart" << std::endl
+			<< "12. ViewProfil" << std::endl
+			<< "13. MyRecepies" << std::endl
+			<< "14. MyReviews" << std::endl;
+		std::cout << "====================" << std::endl;
+
+		std::cout << "Enter command: " << std::endl << "> ";
 		std::cin >> myCommand;
 		if (!isValidCommand(myCommand)) {
 			std::cout << "Invalid command.Enter again: " << std::endl;
@@ -72,10 +88,9 @@ int main() {
 				std::cout << "Exiting..." << std::endl;
 				return 0;
 			default:
+				std::cout << "Error." << std::endl;
 				break;
 			}
 		}
 	}
 }
-
-//BCrypt::validatePassword
