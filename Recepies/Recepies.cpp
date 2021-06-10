@@ -29,7 +29,7 @@ void Recepies::load(const char* filename) {
 	std::ifstream iFile;
 	iFile.open(filename, std::ios::binary | std::ios::in);
 	if (!iFile.is_open()) {
-		std::cout << "Database is empty!" << std::endl;
+		std::cout << "Recepies database is empty!" << std::endl;
 		return;
 	}
 	
@@ -125,25 +125,25 @@ void Recepies::load(const char* filename) {
 			products.push_back(ProductWithVolume(product, volume, unit));
 		}
 
-		iFile.read((char*)&day, sizeof(id));
-		iFile.read((char*)&month, sizeof(id));
-		iFile.read((char*)&year, sizeof(id));
-		iFile.read((char*)&hour, sizeof(id));
-		iFile.read((char*)&min, sizeof(id));
-		iFile.read((char*)&sec, sizeof(id));
+		iFile.read((char*)&day, sizeof(day));
+		iFile.read((char*)&month, sizeof(month));
+		iFile.read((char*)&year, sizeof(year));
+		iFile.read((char*)&hour, sizeof(hour));
+		iFile.read((char*)&min, sizeof(min));
+		iFile.read((char*)&sec, sizeof(sec));
 		addTime = DateTime(day, month, year, hour, min, sec);
 
 		iFile.read((char*)&rating, sizeof(rating));
-
 		iFile.read((char*)&id, sizeof(id));
 		iFile.read((char*)&ownerId, sizeof(ownerId));
 		iFile.read((char*)&timesVisited, sizeof(timesVisited));
 
-		Recepie* toAddRecepie = new Recepie(title, foodGroup, timeToMake, products, algorithm, links, ownerId);
+		Recepie* toAddRecepie = new Recepie(title, foodGroup, timeToMake, products, algorithm, links, ownerId, id);
 		toAddRecepie->setVisits(timesVisited);
 		toAddRecepie->setAddTime(addTime);
 		this->addRecepie(toAddRecepie);
-
+		products.clear();
+		links.clear();
 	}
 	iFile.close();
 }
@@ -153,8 +153,7 @@ void Recepies::addRecepie(Recepie* recepie) {
 }
 
 Recepie* Recepies::operator[](int index) {
-	if (index >= _recepieList.size() || index < 0) {
-		//throw std::exception("Invalid index");
+	if (index >= _recepieList.size() || index < 0 || _recepieList[index]->isDeleted()) {
 		return nullptr;
 	}
 	return _recepieList[index];
@@ -162,15 +161,12 @@ Recepie* Recepies::operator[](int index) {
 
 Recepie* Recepies::getRecepieById(int id) {
 	for (int i = 0; i < _recepieList.size(); i++) {
-		if (_recepieList[i]->getId() == id) {
+		if (_recepieList[i]->getId() == id && !_recepieList[i]->isDeleted()) {
 			return _recepieList[i];
 		}
 	}
-	//throw std::exception("No user with this id");
 	return nullptr;
 }
-
-
 
 int Recepies::getSize() {
 	return _recepieList.size();

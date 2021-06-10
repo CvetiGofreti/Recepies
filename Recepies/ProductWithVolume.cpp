@@ -1,4 +1,5 @@
 #include "ProductWithVolume.h"
+#include <iomanip>
 
 ProductWithVolume::ProductWithVolume(std::string product, double volume, std::string unit) {
 	_product = product;
@@ -40,5 +41,5 @@ void ProductWithVolume::deleteProduct() {
 }
 
 void ProductWithVolume::printInfo() const{
-	std::cout << "Product: " << _product << ", Volume: " << _volume << ", Unit: " << _unit << std::endl;
+	std::cout << _product << ": " << std::setprecision(2) << std::fixed << _volume << " " << _unit << std::endl;
 }

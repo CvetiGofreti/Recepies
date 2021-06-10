@@ -16,6 +16,7 @@ public:
 	DateTime(time_t now);
 	DateTime(int day, int month, int year, int hour, int min, int sec);
 	void print()const ;
+	void printNE() const;
 	int getYear()const;
 	int getMonth()const;
 	int getDay()const;

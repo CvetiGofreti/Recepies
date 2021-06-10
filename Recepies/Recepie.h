@@ -12,6 +12,8 @@ class Recepie
 {
 public:
 	Recepie(std::string title, int foodGroup, int timeToMake, std::vector<ProductWithVolume> products, std::string algorithm, std::vector<Link> links, int ownerId);
+	Recepie(std::string title, int foodGroup, int timeToMake, std::vector<ProductWithVolume> products, std::string algorithm, std::vector<Link> links, int ownerId, int id);
+
 	int getId() const;
 	int getOwnerId() const;
 	void serizalize(std::ofstream &oFile) const;

@@ -1,13 +1,2 @@
-﻿  main.cpp
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(248,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(251,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(300,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(338,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(358,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(516,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(745,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(759,21): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(795,22): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(811,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(109): warning C4715: 'indexOfCommandfunc': not all control paths return a value
+﻿  Recepie.cpp
   Recepies.vcxproj -> C:\Users\Cveti\source\repos\Recepies\Debug\Recepies.exe

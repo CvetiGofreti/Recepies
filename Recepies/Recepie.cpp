@@ -1,6 +1,8 @@
 #include "Recepie.h"
 #include <ctime>
 #include <fstream>
+#include <iomanip>
+
 int Recepie::nextIdRecepie = 0;
 
 Recepie::Recepie(std::string title, int foodGroup, int timeToMake, std::vector<ProductWithVolume> products, std::string algorithm, std::vector<Link> links, int ownerId) {
@@ -20,6 +22,26 @@ Recepie::Recepie(std::string title, int foodGroup, int timeToMake, std::vector<P
 	_ownerId = ownerId;
 	_deleted = false;
 	_timesVisited = 0;
+}
+
+Recepie::Recepie(std::string title, int foodGroup, int timeToMake, std::vector<ProductWithVolume> products, std::string algorithm, std::vector<Link> links, int ownerId, int id){
+	_title = title;
+	_foodGroup = foodGroup;
+	_timeToMake = timeToMake;
+	for (ProductWithVolume product : products) {
+		_products.push_back(ProductWithVolume(product));
+	}
+	_algorithm = algorithm;
+	for (Link link : links) {
+		_links.push_back(Link(link));
+	}
+	_addTime = DateTime(time(0));
+	_rating = 3;
+	_id = id;
+	_ownerId = ownerId;
+	_deleted = false;
+	_timesVisited = 0;
+	nextIdRecepie = id;
 }
 
 int Recepie::getId() const {
@@ -80,6 +102,7 @@ void Recepie::removeFoodGroup(int foodGroupIndex) {
 }
 
 void Recepie::printAllInfo() const {
+	std::cout << "=======Recepie=======" << std::endl;
 	std::cout << "Title: " << _title << std::endl;
 	std::cout << "FoodGroups: " << std::endl;
 
@@ -112,23 +135,29 @@ void Recepie::printAllInfo() const {
 		std::cout << numberOfFoodGroups << ". eggs" << std::endl;
 	}
 
-	std::cout << "Time to make: " << _timeToMake << std::endl;
+	std::cout << "Time to make: " << _timeToMake << " minutes"<< std::endl;
 	std::cout << "Products: " << std::endl;
+	int numberOfProducts = 1;
 	for (ProductWithVolume product : _products) {
+		std::cout << numberOfProducts << ". ";
 		product.printInfo();
+		numberOfProducts++;
 	}
 	std::cout << "Algorithm: " << _algorithm << std::endl;
 	std::cout << "Links: " << std::endl;
+	int numberOfLinks = 1;
 	for (Link link : _links) {
+		std::cout << numberOfLinks << ". ";
 		link.print();
+		numberOfLinks++;
 	}
 	std::cout << "Added at: ";
 	_addTime.print();
-	std::cout << std::endl;
-	std::cout << "Rating: " << _rating << std::endl
+	std::cout << "Rating: " << std::setprecision(2) << std::fixed << _rating  << "/5"<< std::endl
 		<< "Id: " << _id << std::endl
 		<< "Owner Id: " << _ownerId << std::endl
 		<< "Times visited: " << _timesVisited << std::endl;
+	std::cout << "=====================" << std::endl;
 }
 
 void Recepie::addProduct(ProductWithVolume& product){
@@ -221,8 +250,6 @@ void Recepie::serizalize(std::ofstream& oFile) const {
 	oFile.write((const char*)&_ownerId, sizeof(_ownerId));
 
 	oFile.write((const char*)&_timesVisited, sizeof(_timesVisited));
-
-
 }
 
 bool Recepie::isDeleted() const {
@@ -238,12 +265,12 @@ std::string Recepie::getTitle() const {
 }
 
 void Recepie::printTitle() const {
-	std::cout << "Recepie Title: " << _title << std::endl;
+	std::cout << _title << std::endl;
 }
 
 void Recepie::calculateRating(Ratings& myRatingList) {
-	int counter = 0;
-	int sumOfRatings = 0;
+	double counter = 0;
+	double sumOfRatings = 0;
 	for (int i = 0; i < myRatingList.getSize(); i++) {
 		if (myRatingList[i]->getRecepieId() == _id) {
 			counter++;

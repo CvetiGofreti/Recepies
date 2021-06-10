@@ -22,7 +22,7 @@ void Ratings::load(const char* filename) {
 	std::ifstream iFile;
 	iFile.open(filename, std::ios::binary | std::ios::in);
 	if (!iFile.is_open()) {
-		std::cout << "Database is empty!" << std::endl;
+		std::cout << "Ratings database is empty!" << std::endl;
 		return;
 	}
 	int value = 0;

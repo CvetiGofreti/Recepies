@@ -13,9 +13,10 @@ public:
 	Users& operator=(const Users& other);
 	void load(const char* filename);
 	void addUser(User* user);
-	User* operator[](int index);
-	User* getUserById(int id);
-	int getSize();
+	User* operator[](int index) const;
+	User* getUserById(int id) const;
+	int getSize() const;
+	bool isEmpty() const;
 	~Users();
 };
 

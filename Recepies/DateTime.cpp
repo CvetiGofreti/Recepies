@@ -77,6 +77,11 @@ void DateTime::print() const{
 	printMonth(this->_month);
 	cout << " " << this->_year << ", " << this->_hour << ":" << this->_min << ":" << this->_sec << endl;
 }
+void DateTime::printNE() const {
+	cout << this->_day << " ";
+	printMonth(this->_month);
+	cout << " " << this->_year << ", " << this->_hour << ":" << this->_min << ":" << this->_sec;
+}
 int DateTime::getYear()const {
 	return this->_year;
 }
@@ -114,10 +119,10 @@ bool DateTime::operator==(const DateTime& other) const {
 }
 
 void DateTime::serizalize(std::ofstream& oFile) const {
-	oFile.write((const char*)&_day, sizeof(int));
-	oFile.write((const char*)&_month, sizeof(int));
-	oFile.write((const char*)&_year, sizeof(int));
-	oFile.write((const char*)&_hour, sizeof(int));
-	oFile.write((const char*)&_min, sizeof(int));
-	oFile.write((const char*)&_sec, sizeof(int));
+	oFile.write((const char*)&_day, sizeof(_day));
+	oFile.write((const char*)&_month, sizeof(_month));
+	oFile.write((const char*)&_year, sizeof(_year));
+	oFile.write((const char*)&_hour, sizeof(_hour));
+	oFile.write((const char*)&_min, sizeof(_min));
+	oFile.write((const char*)&_sec, sizeof(_sec));
 }
