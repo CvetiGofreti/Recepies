@@ -17,5 +17,5 @@ private:
 	double _volume;
 	std::string _product;
 	std::string _unit;
-	bool deleted;
+	bool _deleted;
 };

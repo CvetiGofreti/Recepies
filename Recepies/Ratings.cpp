@@ -6,18 +6,6 @@ Ratings::Ratings(std::vector<Rating*>& ratings) {
 	}
 }
 
-
-
-Ratings::Ratings(const Ratings& other) {
-}
-
-Ratings& Ratings::operator=(const Ratings& other) {
-	if(this != &other){
-
-	}
-	return *this;
-}
-
 void Ratings::load(const char* filename) {
 	std::ifstream iFile;
 	iFile.open(filename, std::ios::binary | std::ios::in);
@@ -27,15 +15,15 @@ void Ratings::load(const char* filename) {
 	}
 	int value = 0;
 	int userId = 0;
-	int recepieId = 0;
+	int recipeId = 0;
 	iFile.seekg(0, std::ios::beg);
 	while (!iFile.eof()) {
-		iFile.read((char*)&recepieId, sizeof(recepieId));
+		iFile.read((char*)&recipeId, sizeof(recipeId));
 		if (iFile.eof())break;
 		iFile.read((char*)&userId, sizeof(userId));
 		iFile.read((char*)&value, sizeof(value));
 
-		Rating* toAdd = new Rating(value, recepieId, userId);
+		Rating* toAdd = new Rating(value, recipeId, userId);
 		this->addRating(toAdd);
 	}
 	iFile.close();
@@ -56,9 +44,9 @@ int Ratings::getSize() const {
 	return _ratings.size();
 }
 
-bool Ratings::existRating(int userId, int recepieId) const {
+bool Ratings::existRating(int userId, int recipeId) const {
 	for (Rating* rating : _ratings) {
-		if (userId == rating->getUserId() && recepieId == rating->getRecepieId()) {
+		if (userId == rating->getUserId() && recipeId == rating->getRecipeId()) {
 			return true;
 		}
 	}

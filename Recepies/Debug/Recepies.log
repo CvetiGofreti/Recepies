@@ -1,2 +1,8 @@
-﻿  Recepie.cpp
+﻿  main.cpp
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(297,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(331,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(357,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(515,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(748,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Cveti\source\repos\Recepies\Recepies\Functions.h(814,20): warning C4018: '<': signed/unsigned mismatch
   Recepies.vcxproj -> C:\Users\Cveti\source\repos\Recepies\Debug\Recepies.exe

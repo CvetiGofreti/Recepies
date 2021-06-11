@@ -1,9 +1,10 @@
 #include "Rating.h"
 
-Rating::Rating(int value, int recepieId, int userId) {
+Rating::Rating(int value, int recipeId, int userId) {
 	_value = value;
-	_recepieId = recepieId;
+	_recipeId = recipeId;
 	_userId = userId;
+	_deleted = false;
 }
 
 int Rating::getValue() const {
@@ -14,12 +15,20 @@ int Rating::getUserId() const {
 	return _userId;
 }
 
-int Rating::getRecepieId() const {
-	return _recepieId;
+int Rating::getRecipeId() const {
+	return _recipeId;
 }
 
 void Rating::serizalize(std::ofstream& oFile) const {
-	oFile.write((const char*)&_recepieId, sizeof(_recepieId));
+	oFile.write((const char*)&_recipeId, sizeof(_recipeId));
 	oFile.write((const char*)&_userId, sizeof(_userId));
 	oFile.write((const char*)&_value, sizeof(_value));
+}
+
+bool Rating::isDeleted() const {
+	return _deleted;
+}
+
+void Rating::deleteRating() {
+	_deleted = true;
 }

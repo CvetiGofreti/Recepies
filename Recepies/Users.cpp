@@ -14,22 +14,6 @@ Users::Users(std::vector<User*> userList) {
 	}
 }
 
-Users::Users(const Users& other) : Users(other._userList) {
-}
-
-Users& Users:: operator=(const Users& other) {
-	if (this != &other) {
-		for (User* user : _userList) {
-			delete user;
-		}
-		_userList.clear();
-		for (User* user : other._userList) {
-			_userList.push_back(user);
-		}
-	}
-	return *this;
-}
-
 User* Users::operator[](int index) const {
 	if (index >= _userList.size() || index < 0) {
 		return nullptr;

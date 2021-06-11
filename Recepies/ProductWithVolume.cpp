@@ -5,7 +5,7 @@ ProductWithVolume::ProductWithVolume(std::string product, double volume, std::st
 	_product = product;
 	_volume = volume;
 	_unit = unit;
-	deleted = false;
+	_deleted = false;
 }
 
 std::string ProductWithVolume::getProduct() {
@@ -33,11 +33,11 @@ void ProductWithVolume::serizalize(std::ofstream& oFile) const {
 }
 
 bool ProductWithVolume::isDeleted() const {
-	return deleted;
+	return _deleted;
 }
 
 void ProductWithVolume::deleteProduct() {
-	deleted = true;
+	_deleted = true;
 }
 
 void ProductWithVolume::printInfo() const{

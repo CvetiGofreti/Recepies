@@ -3,13 +3,16 @@
 class Rating
 {
 public:
-	Rating(int value, int recepieId, int userId);
+	Rating(int value, int recipeId, int userId);
 	int getValue() const;
 	int getUserId() const;
-	int getRecepieId() const;
+	int getRecipeId() const;
 	void serizalize(std::ofstream& oFile) const;
+	bool isDeleted() const;
+	void deleteRating();
 private:
 	int _value;
-	int _recepieId;
+	int _recipeId;
 	int _userId;
+	bool _deleted;
 };

@@ -7,12 +7,12 @@ int main() {
 
 	Ratings myRatingsList;
 	myRatingsList.load("ratings.db");
-	Recepies myRecepieList;
-	myRecepieList.load("recepies.db");
+	Recipes myRecipeList;
+	myRecipeList.load("recipes.db");
 	Users myUserList;
 	myUserList.load("users.db");
-	for (int i = 0; i < myRecepieList.getSize(); i++) {
-		myRecepieList[i]->calculateRating(myRatingsList);
+	for (int i = 0; i < myRecipeList.getSize(); i++) {
+		myRecipeList[i]->calculateRating(myRatingsList);
 	}
 
 	std::string myCommand = "";
@@ -38,38 +38,38 @@ int main() {
 				logoutUser();
 				break;
 			case 3:
-				addRecepie(myRecepieList);
+				addRecipe(myRecipeList);
 				break;
 			case 4:
-				changeRecepie(myRecepieList);
+				changeRecipe(myRecipeList);
 				break;
 			case 5:
-				deleteRecepie(myRecepieList);
+				deleteRecipe(myRecipeList, myRatingsList);
 				break;
 			case 6:
-				previewRecepie(myRecepieList);
+				previewRecipe(myRecipeList);
 				break;
 			case 7:
-				searchByName(myRecepieList);
+				searchByName(myRecipeList);
 				break;
 			case 8:
-				rateRecepie(myRecepieList, myRatingsList);
+				rateRecipe(myRecipeList, myRatingsList);
 				break;
 			case 9:
-				getTopChart(myRecepieList);
+				getTopChart(myRecipeList);
 				break;
 			case 10:
-				viewProfil(myUserList, myRecepieList);
+				viewProfil(myUserList, myRecipeList);
 				break;
 			case 11:
-				myRecepies(myRecepieList);
+				myRecipes(myRecipeList);
 				break;
 			case 12:
-				printUserRatings(CURR_LOGGED_USER, myRecepieList, myRatingsList);
+				printUserRatings(CURR_LOGGED_USER, myRecipeList, myRatingsList);
 				break;
 			case 13:
 				std::cout << "Saving changes..." << std::endl;
-				save(myRecepieList);
+				save(myRecipeList, myRatingsList);
 				std::cout << "Changes saved!" << std::endl;
 				std::cout << "Exiting..." << std::endl;
 				return 0;
